@@ -1,0 +1,72 @@
+<!--
+  Generated template for the ProfilesPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Github Profiles</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card>
+      <form (ngSubmit)="onSubmit()">
+        <ion-item>
+          <ion-label>Github User:</ion-label>
+          <ion-input type="text" [(ngModel)]="username" name="username"></ion-input>
+        </ion-item>
+        <br />
+        <button ion-button clear small (tap)="reset()">Reset</button>
+        <button ion-button type="submit" clear small>Search</button>
+      </form>
+  </ion-card>
+
+  <ion-card *ngIf="profile">
+    <ion-item>
+      <ion-avatar item-left>
+        <img src="{{profile.avatar_url}}">
+      </ion-avatar>
+      <h2>{{profile.name}}</h2>
+      <p>{{profile.location}}</p>
+    </ion-item>
+    <ion-row>
+      <ion-col>
+        <button ion-button icon-left clear small (click)="showFollowers(profile.login)">
+          <ion-icon name="person"></ion-icon>
+          <div>{{ profile.followers }} Followers</div>
+        </button>
+      </ion-col>
+      <ion-col>
+        <button ion-button icon-left clear small (click)="showRepos(profile.login)">
+          <ion-icon name="git-branch"></ion-icon>
+          <div>{{ profile.public_repos }} Public Repos</div>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
+  <ion-card *ngIf="followers">
+    <ion-list>
+      <ion-item *ngFor="let follower of followers">
+        <ion-avatar item-left>
+          <img src="{{follower.avatar_url}}">
+        </ion-avatar>
+        <h2>{{follower.login}}</h2>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+  <ion-card *ngIf="repos">
+    <ion-list>
+      <ion-item *ngFor="let repo of repos" (click)="repoTapped($event, repo)">
+        <h2>{{ repo.name }}</h2>
+        <p>{{ repo.description }}</p>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+</ion-content>
